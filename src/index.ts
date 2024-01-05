@@ -6,6 +6,6 @@ admin.initializeApp();
 
 http('backup', (request: Request, response: Response) => {
 
-  response.status(200).send("Working!");
+  response.status(200).send("Testing!");
     
 });
