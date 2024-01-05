@@ -34,6 +34,7 @@ jobs:
       with:
         service: 'daily-user-backup'
         region: 'us-central1'
+        image: 'gcr.io/cloudrun/hello:latest'
     
     - name: 'Use output'
       run: 'curl "${{ steps.deploy.output.url }} "'
