@@ -1,0 +1,39 @@
+name: Build + Deploy to GCloud
+run-name: 🚀 ${{ github.actor }} is deploying the Data Backup Cloud Function
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  job_id:
+    runs-on: 'ubuntu-latest'
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+
+    steps:
+    - uses: 'actions/checkout@v4'
+
+    - id: 'auth'
+      uses: 'google-github-actions/auth@v2'
+      with:
+        workload_identity_provider: 'projects/781841010728/locations/global/workloadIdentityPools/my-pool/providers/github'
+        service_account: 'f3omahadatabackup@f3omaha.iam.gserviceaccount.com'
+
+    - id: 'setup'
+      uses: 'actions/setup-node@v1'
+      with:
+        node-version: 20.x
+      
+    - id: 'build'
+      run: 'npm install && npm run build'
+
+    - id: 'deploy'
+      uses: 'google-github-actions/deploy-cloudrun@v0'
+      with:
+        service: 'daily-user-backup'
+        region: 'us-central1'
+        
+
+
