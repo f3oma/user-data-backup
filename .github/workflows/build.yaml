@@ -30,10 +30,15 @@ jobs:
       run: 'npm install && npm run build'
 
     - id: 'deploy'
-      uses: 'google-github-actions/deploy-cloudrun@v0'
+      uses: 'google-github-actions/deploy-cloudrun@v2'
       with:
         service: 'daily-user-backup'
         region: 'us-central1'
+    
+    - name: 'Use output'
+      run: 'curl "${{ steps.deploy.output.url }} "'
+      continue-on-error: true
+    
 
 
 
